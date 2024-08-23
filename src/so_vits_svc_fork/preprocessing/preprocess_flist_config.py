@@ -59,10 +59,10 @@ def preprocess_config(
         print("speaker 4")
         print("OK paths", paths)
         random.shuffle(paths)
-        if len(paths) <= 4:
-            raise ValueError(
-                f"too few files in {input_dir / speaker} (expected at least 5)."
-            )
+        # if len(paths) <= 4:
+        #     raise ValueError(
+        #         f"too few files in {input_dir / speaker} (expected at least 5)."
+        #     )
         train += paths[2:-2]
         val += paths[:2]
         test += paths[-2:]
