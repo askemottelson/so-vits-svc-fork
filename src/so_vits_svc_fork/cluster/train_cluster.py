@@ -24,6 +24,8 @@ def train_cluster(
     verbose: bool = False,
 ) -> dict:
     input_dir = Path(input_dir)
+    print("train_cluster", input_dir)
+
     if not partial_fit:
         LOG.info(f"Loading features from {input_dir}")
         features = []
@@ -116,13 +118,23 @@ def main(
     input_dir = Path(input_dir)
     output_path = Path(output_path)
 
+    print("main")
+    print("i", input_dir)
+    print("o", output_dir)
+
     if not (use_minibatch or not partial_fit):
         raise ValueError("partial_fit requires use_minibatch")
 
     def train_cluster_(input_path: Path, **kwargs: Any) -> tuple[str, dict]:
+        print("train_cluster_", input_path)
         return input_path.stem, train_cluster(input_path, **kwargs)
 
+
+    print("tqdm_joblib")
     with tqdm_joblib(desc="Training clusters", total=len(list(input_dir.iterdir()))):
+        print("input_dir", input_dir)
+        print("input_dir.iterdir()", list(input_dir.iterdir()))
+
         parallel_result = Parallel(n_jobs=-1)(
             delayed(train_cluster_)(
                 speaker_name,
