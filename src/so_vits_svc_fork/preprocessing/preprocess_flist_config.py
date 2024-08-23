@@ -37,18 +37,26 @@ def preprocess_config(
     speakers = os.listdir(input_dir)
     print("speakers", len(speakers))
     for speaker in speakers:
-        print("speaker", speaker)
+        print("speaker 0", speaker)
         spk_dict[speaker] = spk_id
+        print("speaker 1")
         spk_id += 1
         paths = []
+        print("speaker 2")
         tq_paths = tqdm(list((input_dir / speaker).rglob("*.wav")))
+        print("speaker 3", len(tq_paths))
         for path in tq_paths:
-            if get_duration(filename=path) < 0.3:
+            print("speaker 3.1")
+            duration = 10.0#get_duration(filename=path)
+            print("speaker 3.2", duration)
+            if duration < 0.3:
+                print("speaker 3.3 !!!")
                 LOG.warning(f"skip {path} because it is too short.")
                 continue
             else:
                 print("OK get_duration")
             paths.append(path)
+        print("speaker 4")
         print("OK paths", paths)
         random.shuffle(paths)
         if len(paths) <= 4:
