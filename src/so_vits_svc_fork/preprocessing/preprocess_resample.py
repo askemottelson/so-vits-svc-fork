@@ -134,7 +134,7 @@ def preprocess_resample(
 
         print("parts", in_path_relative.parts)
 
-        if len(in_path_relative.parts) < 2:
+        if len(in_path_relative.parts) == 0:
             continue
         speaker_name = in_path_relative.parts[0]
         file_name = in_path_relative.with_suffix(".wav").name
