@@ -22,6 +22,7 @@ def preprocess_config(
     config_path: Path | str,
     config_name: str,
 ):
+    print("preprocess_config")
     input_dir = Path(input_dir)
     train_list_path = Path(train_list_path)
     val_list_path = Path(val_list_path)
@@ -33,7 +34,10 @@ def preprocess_config(
     spk_dict = {}
     spk_id = 0
     random = np.random.RandomState(1234)
-    for speaker in os.listdir(input_dir):
+    speakers = os.listdir(input_dir)
+    print("speakers", len(speakers))
+    for speaker in speakers:
+        print("speaker", speaker)
         spk_dict[speaker] = spk_id
         spk_id += 1
         paths = []
