@@ -58,6 +58,10 @@ def _preprocess_one(
 ) -> None:
     """Preprocess one audio file."""
 
+    print("_preprocess_one")
+    print("input_path", input_path)
+    print("output_path", output_path)
+
     try:
         audio, sr = librosa.load(input_path, sr=sr, mono=True)
 
@@ -86,6 +90,7 @@ def _preprocess_one(
         LOG.info(f"Skip {input_path} because it is too short.")
         return
 
+    print("soundfile.write", output_path)
     soundfile.write(output_path, audio, samplerate=sr, subtype="PCM_16")
 
 
@@ -103,10 +108,14 @@ def preprocess_resample(
     output_dir = Path(output_dir)
     """Preprocess audio files in input_dir and save them to output_dir."""
 
+    print("i", input_dir)
+    print("o", output_dir)
+
     out_paths = []
     in_paths = list(input_dir.rglob("*.*"))
     if not in_paths:
         raise ValueError(f"No audio files found in {input_dir}")
+    print("No. files", len(in_paths))
     for in_path in in_paths:
         in_path_relative = in_path.relative_to(input_dir)
         if not in_path.is_absolute() and is_relative_to(
@@ -119,6 +128,11 @@ def preprocess_resample(
                 f"Recoginzed {in_path_relative} as {new_in_path_relative}"
             )
             in_path_relative = new_in_path_relative
+            print("warning about path relation")
+        else:
+            print("no warning about path relation")
+
+        print("parts", in_path_relative.parts)
 
         if len(in_path_relative.parts) < 2:
             continue
@@ -128,6 +142,8 @@ def preprocess_resample(
         out_path = _get_unique_filename(out_path, out_paths)
         out_path.parent.mkdir(parents=True, exist_ok=True)
         out_paths.append(out_path)
+
+    print("out_paths", len(out_paths))
 
     in_and_out_paths = list(zip(in_paths, out_paths))
 
