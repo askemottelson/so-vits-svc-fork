@@ -41,11 +41,15 @@ def preprocess_config(
         spk_dict[speaker] = spk_id
         spk_id += 1
         paths = []
-        for path in tqdm(list((input_dir / speaker).rglob("*.wav"))):
+        tq_paths = tqdm(list((input_dir / speaker).rglob("*.wav")))
+        for path in tq_paths:
             if get_duration(filename=path) < 0.3:
                 LOG.warning(f"skip {path} because it is too short.")
                 continue
+            else:
+                print("OK get_duration")
             paths.append(path)
+        print("OK paths", paths)
         random.shuffle(paths)
         if len(paths) <= 4:
             raise ValueError(
@@ -54,6 +58,7 @@ def preprocess_config(
         train += paths[2:-2]
         val += paths[:2]
         test += paths[-2:]
+        orint("OK speaker")
 
     LOG.info(f"Writing {train_list_path}")
     train_list_path.parent.mkdir(parents=True, exist_ok=True)
