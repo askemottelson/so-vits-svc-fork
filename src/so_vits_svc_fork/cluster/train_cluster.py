@@ -120,15 +120,20 @@ def main(
 
     print("main")
     print("i", input_dir)
-    print("o", output_dir)
+    print("o", output_path)
+
+    print("OK0")
 
     if not (use_minibatch or not partial_fit):
         raise ValueError("partial_fit requires use_minibatch")
+
+    print("OK1")
 
     def train_cluster_(input_path: Path, **kwargs: Any) -> tuple[str, dict]:
         print("train_cluster_", input_path)
         return input_path.stem, train_cluster(input_path, **kwargs)
 
+    print("OK2")
 
     print("tqdm_joblib")
     with tqdm_joblib(desc="Training clusters", total=len(list(input_dir.iterdir()))):
@@ -146,6 +151,7 @@ def main(
             )
             for speaker_name in input_dir.iterdir()
         )
+    print("OK OK")
     assert parallel_result is not None
     checkpoint = dict(parallel_result)
     output_path.parent.mkdir(exist_ok=True, parents=True)
