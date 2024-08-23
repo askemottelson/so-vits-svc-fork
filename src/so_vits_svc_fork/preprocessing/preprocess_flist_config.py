@@ -66,7 +66,7 @@ def preprocess_config(
         train += paths[2:-2]
         val += paths[:2]
         test += paths[-2:]
-        orint("OK speaker")
+        print("OK speaker")
 
     LOG.info(f"Writing {train_list_path}")
     train_list_path.parent.mkdir(parents=True, exist_ok=True)
